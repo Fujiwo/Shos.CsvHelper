@@ -6,8 +6,12 @@
     <AssemblyName>Shos.CsvHelper</AssemblyName>
     <Copyright>Fujio Kojima</Copyright>
     <Version>0.1.0</Version>
-    <Description>Csv (comma-separated values) Library</Description>
+    <Description>Csv (comma-separated values) Library
+.NET Standard Library
+</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

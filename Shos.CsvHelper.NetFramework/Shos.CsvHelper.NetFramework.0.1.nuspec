@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+    <metadata minClientVersion="4.5.2">
+        <id>Shos.CsvHelper.NetFramework</id>
+        <version>0.1</version>
+        <title>Shos.CsvHelper.NetFramework</title>
+        <authors>Fujio Kojima</authors>
+        <owners>Fujio Kojima</owners>
+        <projectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Csv (comma-separated values) Library
+.NET Framework Library</description>
+        <copyright>Copyright 2017 Fujio Kojima</copyright>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="bin\Release\Shos.CsvHelper.NetFramework.dll" target="Shos.CsvHelper.NetFramework.dll" />
+    </files>
+</package>

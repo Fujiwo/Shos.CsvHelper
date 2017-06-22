@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shos.CsvHelperSample.NetCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shos.CsvHelperSample.NetFramework", "Shos.CsvHelperSample.NetFramework\Shos.CsvHelperSample.NetFramework.csproj", "{6373C47E-0A89-4151-85DA-C1907E413652}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shos.CsvHelper.NetFramework", "Shos.CsvHelper.NetFramework\Shos.CsvHelper.NetFramework.csproj", "{6E50072C-DBEE-4094-B984-88CD3DD44560}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6373C47E-0A89-4151-85DA-C1907E413652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6373C47E-0A89-4151-85DA-C1907E413652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6373C47E-0A89-4151-85DA-C1907E413652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
