@@ -15,7 +15,8 @@ Csv (comma-separated values) Library
 
 ### Shos.CsvHelperSample.NetCore
 * .NET Core Console Sample for Shos.CsvHelper
-* Shos.CsvHelperSample.NetFramework
+
+### Shos.CsvHelperSample.NetFramework
 * .NET Core Console Sample for Shos.CsvHelper.NetFramework
 
 
