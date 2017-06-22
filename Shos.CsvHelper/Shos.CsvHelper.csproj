@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <RootNamespace>Shos.CsvHelper</RootNamespace>
+    <AssemblyName>Shos.CsvHelper</AssemblyName>
+    <Copyright>Fujio Kojima</Copyright>
+    <Version>0.1.0</Version>
+    <Description>Csv (comma-separated values) Library</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
