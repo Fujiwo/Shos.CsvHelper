@@ -11,6 +11,9 @@
 
     class ToDo
     {
+        // public properties will be write and read as csv
+        // each type should be string or enum or type which can "TryParse"
+
         public int      Id       { get; set; }
         public string   Title    { get; set; } = "";
         public DateTime Deadline { get; set; } = DateTime.Now;
@@ -18,8 +21,8 @@
         public Priority Priority { get; set; } = Priority.Middle;
         public string   Detail   { get; set; } = "";
         [CsvIgnore()]
-        public string   Option   { get; set; } = "";
-        public string   Version => "1.0"; // read only property
+        public string   Option   { get; set; } = ""; // ignore this property with [CsvIgnore()]
+        public string   Version => "1.0"; // read only or write only property will be ignored
 
         public override string ToString()
             => $"Id: {Id}, Title: {Title}, Deadline: {Deadline.ToString()}, Done: {Done}, Priority: {Priority}, Detail: {Detail}";
@@ -43,7 +46,7 @@
         {
             const string csvFileName = "todo.csv";
 
-            var toDoes = new ToDoList();
+            IEnumerable<ToDo> toDoes = new ToDoList();
             toDoes.ForEach(Console.WriteLine);
             using (var stream = new FileStream(csvFileName, FileMode.Create))
                 await toDoes.WriteCsvAsync(stream);

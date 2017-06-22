@@ -1,4 +1,5 @@
-﻿// .NET Framework 4.5.2 or later
+﻿// Csv(comma-separated values) Library
+// .NET Framework 4.5.2 or later
 
 namespace Shos.CsvHelper
 {
