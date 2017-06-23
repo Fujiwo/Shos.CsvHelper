@@ -8,9 +8,8 @@
         <owners>Fujio Kojima</owners>
         <projectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Csv (comma-separated values) Library
-.NET Framework Library</description>
-        <copyright>Copyright 2017 Fujio Kojima</copyright>
+        <description>Csv (comma-separated values) Library (.NET Framework Library)</description>
+        <copyright>Copyright © 2017 Fujio Kojima</copyright>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System" targetFramework="" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="" />

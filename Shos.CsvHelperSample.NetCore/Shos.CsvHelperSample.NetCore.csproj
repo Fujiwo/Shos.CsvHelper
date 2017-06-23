@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Description>.NET Core Console Sample for Shos.CsvHelper</Description>
-    <Copyright>Fujio Kojima</Copyright>
+    <Copyright>Copyright © 2017 Fujio Kojima</Copyright>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
   </PropertyGroup>

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Shos.CsvHelperSample.NetFramework")]
-[assembly: AssemblyCopyright("Copyright ©  2017 Fujio Kojima")]
+[assembly: AssemblyCopyright("Copyright © 2017 Fujio Kojima")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
