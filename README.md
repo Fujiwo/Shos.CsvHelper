@@ -8,10 +8,12 @@ Csv (comma-separated values) Library
 * .NET Standard Library
 * .NET Standard 1.3 or later
 * for .NET Network 4.6 or later, .NET Core 1.1 or later
+* Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper](https://www.nuget.org/packages/Shos.CsvHelper "NuGet Gallery | Shos.CsvHelper")
 
 ### Shos.CsvHelper.NetFramework
 * Csv (comma-separated values) Library for .NET Framework
 * .NET Framework 4.5.2 or later
+* Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper.NetFramework](https://www.nuget.org/packages/Shos.CsvHelper.NetFramework "NuGet Gallery | Shos.CsvHelper.NetFramework")
 
 ### Shos.CsvHelperSample.NetCore
 * .NET Core Console Sample for Shos.CsvHelper
