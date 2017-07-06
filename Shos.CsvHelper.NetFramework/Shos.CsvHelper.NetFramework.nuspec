@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
     <metadata minClientVersion="4.5.2">
         <id>Shos.CsvHelper.NetFramework</id>
-        <version>0.1</version>
+        <version>0.1.0.2</version>
         <title>Shos.CsvHelper.NetFramework</title>
         <authors>Fujio Kojima</authors>
         <owners>Fujio Kojima</owners>
