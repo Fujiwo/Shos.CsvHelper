@@ -7,6 +7,9 @@
     <Copyright>Copyright © 2017 Fujio Kojima</Copyright>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
+    <Version>1.0.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

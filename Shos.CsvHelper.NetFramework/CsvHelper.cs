@@ -30,7 +30,7 @@ namespace Shos.CsvHelper
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<TKey> keys, IEnumerable<TValue> values)
         {
             var dictionary = new Dictionary<TKey, TValue>();
-            var valueList = values.ToList();
+            var valueList  = values.ToList();
             keys.ForEach((index, key) => dictionary[key] = valueList[index]);
             return dictionary;
         }
@@ -48,7 +48,7 @@ namespace Shos.CsvHelper
 
     public static class CsvBuilder
     {
-        const char separator       = ',' ;
+        const char separator       = ',';
         const char doubleQuoration = '\"';
         const char newLine         = '\n';
         const char carriageReturn  = '\r';
@@ -62,7 +62,7 @@ namespace Shos.CsvHelper
             return stringBuilder.ToString();
         }
 
-        // for string or enum or types which can "TryParse"
+        // for string or enum or types which can "TryParse" or "Parse"
         public static IEnumerable<TElement> FromCsv<TElement>(this string csv)
             where TElement : new()
         {
@@ -108,7 +108,7 @@ namespace Shos.CsvHelper
             where TItem : new()
         {
             var csvTable = propertyNames.ToDictionary(csv.SplitCsv());
-            var item     = new TItem();
+            var item = new TItem();
             properties.ForEach(
                 property => {
                     if (csvTable.TryGetValue(property.Name, out var propertyCsv)) {
@@ -121,7 +121,7 @@ namespace Shos.CsvHelper
             return item;
         }
 
-        // return value: string or enum or types which can "TryParse"
+        // return value: string or enum or types which can "TryParse" or "Parse"
         // return null : other types
         static object ToValue(this string text, Type type)
         {
@@ -129,14 +129,44 @@ namespace Shos.CsvHelper
                 return text;
             if (type.GetTypeInfo().IsEnum)
                 return text.EnumToValue(type);
-
-            var method     = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
-            var parameters = new object[] { text, null };
-            return method != null && (bool)method.Invoke(null, parameters) ? parameters[1] : null;
+            return type.DoParse(text);
         }
 
         static object EnumToValue(this string text, Type type)
             => Enum.GetValues(type).ToEnumerable<object>().FirstOrDefault(val => Enum.GetName(type, val) == text);
+
+        static object DoParse(this Type type, string text)
+        {
+            object value;
+            return type.TryParse(text, out value) || type.Parse(text, out value) ? value : null;
+        }
+
+        static bool TryParse(this Type type, string text, out object value)
+        {
+            var method     = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
+            var parameters = new object[] { text, null };
+            if (method != null && (bool)method.Invoke(null, parameters)) {
+                value = parameters[1];
+                return true;
+            }
+            value = null;
+            return false;
+        }
+
+        static bool Parse(this Type type, string text, out object value)
+        {
+            var method    = type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
+            var parameter = new object[] { text };
+            if (method != null) {
+                try {
+                    value = method.Invoke(null, parameter);
+                    return true;
+                } catch {
+                }
+            }
+            value = null;
+            return false;
+        }
 
         static IEnumerable<string> SplitCsv(this string csv)
         {
