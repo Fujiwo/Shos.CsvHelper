@@ -37,7 +37,7 @@ namespace CsvHelperSample.NetFramework
 
     enum Priority { High, Middle, Low }
 
-    // type which can't "Parse" but "TryParse"
+    // type which can't "TryParse" but "Parse"
     struct DaySpan
     {
         public int Value { get; private set; }
@@ -58,7 +58,7 @@ namespace CsvHelperSample.NetFramework
         public bool     Done     { get; set; }
         public Priority Priority { get; set; } = Priority.Middle;
         public string   Detail   { get; set; } = "";
-        public DaySpan  DaySpan  { get; set; } // type which can't "Parse" but "TryParse"
+        public DaySpan  DaySpan  { get; set; } // type which can't "TryParse" but "Parse"
         [CsvIgnore()]
         public string   Option   { get; set; } = ""; // ignore this property with [CsvIgnore()]
         public string   Version => "1.0"; // read only or write only property will be ignored
