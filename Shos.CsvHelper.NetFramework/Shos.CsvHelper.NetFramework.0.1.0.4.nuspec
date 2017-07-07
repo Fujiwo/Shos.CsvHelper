@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Shos.CsvHelper.NetFramework</id>
+        <version>0.1.0.4</version>
+        <title>Shos.CsvHelper.NetFramework</title>
+        <authors>Fujio Kojima</authors>
+        <owners>Fujio Kojima</owners>
+        <projectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Csv (comma-separated values) Library (.NET Framework Library)
+
+A library for reading objects from CSV files and writing objects to CSV files.</description>
+        <releaseNotes>https://www.nuget.org/packages/Shos.CsvHelper.NetFramework/#change-log</releaseNotes>
+        <copyright>Copyright © 2017 Fujio Kojima</copyright>
+        <language>en-US</language>
+        <tags>csv csvhelper comma separated value delimited</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="bin\Release\Shos.CsvHelper.NetFramework.dll" target="lib\Shos.CsvHelper.NetFramework.dll" />
+    </files>
+</package>
