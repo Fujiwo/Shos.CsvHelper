@@ -60,8 +60,11 @@
 
             IEnumerable<ToDo> toDoes = new ToDoList();
             toDoes.ForEach(Console.WriteLine);
+            Console.WriteLine();
+
+            // write csv with header
             using (var stream = new FileStream(csvFileName, FileMode.Create))
-                await toDoes.WriteCsvAsync(stream: stream, hasHeader: true);
+                await toDoes.WriteCsvAsync(stream);
 
             /*
             Result: todo.csv
@@ -74,7 +77,24 @@
 
             IEnumerable<ToDo> newToDoes;
             using (var stream = new FileStream(csvFileName, FileMode.Open))
-                newToDoes = await stream.ReadCsvAsync<ToDo>(hasHeader: true);
+                newToDoes = await stream.ReadCsvAsync<ToDo>();
+            newToDoes.ForEach(Console.WriteLine);
+            Console.WriteLine();
+
+            // write csv without header
+            using (var stream = new FileStream(csvFileName, FileMode.Create))
+                toDoes.WriteCsv(stream: stream, hasHeader: false);
+
+            /*
+            Result: todo.csv
+
+            1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
+            2,report of a business trip,2017/07/06 18:08:13,False,High,"""ASAP""",3
+            3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
+             */
+
+            using (var stream = new FileStream(csvFileName, FileMode.Open))
+                newToDoes = stream.ReadCsv<ToDo>(hasHeader: false);
             newToDoes.ForEach(Console.WriteLine);
         }
     }

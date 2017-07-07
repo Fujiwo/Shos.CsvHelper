@@ -53,7 +53,7 @@ namespace Shos.CsvHelper
         const char newLine         = '\n';
         const char carriageReturn  = '\r';
 
-        public static string ToCsv<TElement>(this IEnumerable<TElement> collection, bool hasHeader)
+        public static string ToCsv<TElement>(this IEnumerable<TElement> collection, bool hasHeader = true)
         {
             var properties    = typeof(TElement).GetValidProperties();
             var stringBuilder = new StringBuilder();
@@ -64,14 +64,17 @@ namespace Shos.CsvHelper
         }
 
         // for string or enum or types which can "TryParse" or "Parse"
-        public static IEnumerable<TElement> FromCsv<TElement>(this string csv, bool hasHeader)
+        public static IEnumerable<TElement> FromCsv<TElement>(this string csv, bool hasHeader = true)
             where TElement : new()
         {
-            var lines         = csv.Split(newLine).Where(line => line.Length > 0);
-            var propertyNames = lines.FirstOrDefault()?.SplitCsv();
-            return propertyNames == null
-                   ? null
-                   : lines.Skip(hasHeader ? 1 : 0).Select(line => line.FromCsv<TElement>(propertyNames, typeof(TElement).GetValidProperties()));
+            var lines = csv.Split(newLine).Where(line => line.Length > 0);
+            if (hasHeader) {
+                var propertyNames = lines.FirstOrDefault()?.SplitCsv();
+                return propertyNames == null
+                       ? null
+                       : lines.Skip(1).Select(line => line.FromCsv<TElement>(propertyNames, typeof(TElement).GetValidProperties()));
+            }
+            return lines.Select(line => line.FromCsv<TElement>(typeof(TElement).GetValidProperties()));
         }
 
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
@@ -105,15 +108,34 @@ namespace Shos.CsvHelper
             stringBuilder.Append(newLine);
         }
 
+        // for Csv with header
         static TItem FromCsv<TItem>(this string csv, IEnumerable<string> propertyNames, IEnumerable<PropertyInfo> properties)
             where TItem : new()
         {
             var csvTable = propertyNames.ToDictionary(csv.SplitCsv());
-            var item = new TItem();
+            var item     = new TItem();
             properties.ForEach(
                 property => {
                     if (csvTable.TryGetValue(property.Name, out var propertyCsv)) {
                         var value = propertyCsv.ToValue(property.PropertyType);
+                        if (value != null)
+                            property.SetValue(item, value);
+                    }
+                }
+            );
+            return item;
+        }
+
+        // for Csv without header
+        static TItem FromCsv<TItem>(this string csv, IEnumerable<PropertyInfo> properties)
+            where TItem : new()
+        {
+            var propertyCsvs = csv.SplitCsv().ToList();
+            var item         = new TItem();
+            properties.ForEach(
+                (index, property) => {
+                    if (index < propertyCsvs.Count) {
+                        var value = propertyCsvs[index].ToValue(property.PropertyType);
                         if (value != null)
                             property.SetValue(item, value);
                     }
@@ -239,26 +261,26 @@ namespace Shos.CsvHelper
     {
         public static Encoding Encoding { get; set; } = Encoding.UTF8;
 
-        public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader)
+        public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 writer.Write(collection.ToCsv(hasHeader));
         }
 
-        public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader)
+        public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 await writer.WriteAsync(collection.ToCsv(hasHeader));
         }
 
-        public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool hasHeader)
+        public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
             using (var reader = new StreamReader(stream, Encoding))
                 return reader.ReadToEnd().FromCsv<TElement>(hasHeader);
         }
 
-        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this Stream stream, bool hasHeader)
+        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
             using (var reader = new StreamReader(stream, Encoding))
