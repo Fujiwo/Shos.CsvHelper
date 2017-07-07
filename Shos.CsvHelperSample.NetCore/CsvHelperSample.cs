@@ -24,7 +24,8 @@ namespace CsvHelperSample.NetCore
     class ToDo
     {
         // public properties will be write and read as csv
-        // each type should be string or enum or type which can "TryParse"
+        // for writing: type of each property should have "get" and "set"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which can "TryParse" or "Parse"
 
         public int      Id       { get; set; }
         public string   Title    { get; set; } = "";

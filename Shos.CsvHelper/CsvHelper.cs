@@ -75,9 +75,9 @@ namespace Shos.CsvHelper
         }
 
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
-            => type.GetRuntimeProperties().Where(IsValidProperty);
+            => type.GetRuntimeProperties().Where(IsValid);
 
-        static bool IsValidProperty(this PropertyInfo property)
+        static bool IsValid(this PropertyInfo property)
             => property.CanRead && property.CanWrite && property.GetCustomAttributes(typeof(CsvIgnoreAttribute)).Count() == 0;
 
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
@@ -126,15 +126,6 @@ namespace Shos.CsvHelper
         // return null : other types
         static object ToValue(this string text, Type type)
         {
-            //if (type.FullName == "System.String")
-            //    return text;
-            //if (type.GetTypeInfo().IsEnum)
-            //    return text.EnumToValue(type);
-
-            //var method     = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
-            //var parameters = new object[] { text, null };
-            //return method != null && (bool)method.Invoke(null, parameters) ? parameters[1] : null;
-
             if (type.FullName == "System.String")
                 return text;
             if (type.GetTypeInfo().IsEnum)

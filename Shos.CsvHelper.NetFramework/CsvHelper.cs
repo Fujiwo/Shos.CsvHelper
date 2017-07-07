@@ -74,9 +74,9 @@ namespace Shos.CsvHelper
         }
 
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
-            => type.GetRuntimeProperties().Where(IsValidProperty);
+            => type.GetRuntimeProperties().Where(IsValid);
 
-        static bool IsValidProperty(this PropertyInfo property)
+        static bool IsValid(this PropertyInfo property)
             => property.CanRead && property.CanWrite && property.GetCustomAttributes(typeof(CsvIgnoreAttribute)).Count() == 0;
 
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
