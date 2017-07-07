@@ -53,6 +53,7 @@ namespace Shos.CsvHelper
         const char newLine         = '\n';
         const char carriageReturn  = '\r';
 
+        // header is recommended
         public static string ToCsv<TElement>(this IEnumerable<TElement> collection, bool hasHeader = true)
         {
             var properties    = typeof(TElement).GetValidProperties();
@@ -261,12 +262,14 @@ namespace Shos.CsvHelper
     {
         public static Encoding Encoding { get; set; } = Encoding.UTF8;
 
+        // header is recommended
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 writer.Write(collection.ToCsv(hasHeader));
         }
 
+        // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))

@@ -62,7 +62,7 @@
             toDoes.ForEach(Console.WriteLine);
             Console.WriteLine();
 
-            // write csv with header
+            // write csv with header (recommended)
             using (var stream = new FileStream(csvFileName, FileMode.Create))
                 await toDoes.WriteCsvAsync(stream);
 
