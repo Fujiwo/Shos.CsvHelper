@@ -61,7 +61,7 @@
             IEnumerable<ToDo> toDoes = new ToDoList();
             toDoes.ForEach(Console.WriteLine);
             using (var stream = new FileStream(csvFileName, FileMode.Create))
-                await toDoes.WriteCsvAsync(stream);
+                await toDoes.WriteCsvAsync(stream: stream, hasHeader: true);
 
             /*
             Result: todo.csv
@@ -74,7 +74,7 @@
 
             IEnumerable<ToDo> newToDoes;
             using (var stream = new FileStream(csvFileName, FileMode.Open))
-                newToDoes = await stream.ReadCsvAsync<ToDo>();
+                newToDoes = await stream.ReadCsvAsync<ToDo>(hasHeader: true);
             newToDoes.ForEach(Console.WriteLine);
         }
     }
