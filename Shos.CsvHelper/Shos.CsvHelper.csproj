@@ -18,6 +18,8 @@ A library for reading objects from CSV files and writing objects to CSV files.
     <FileVersion>0.1.0.4</FileVersion>
     <PackageTags>csv csvhelper comma separated value delimited</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Fujio Kojima</Authors>
+    <Company>Shos Software</Company>
   </PropertyGroup>
 
 </Project>
