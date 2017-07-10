@@ -314,14 +314,14 @@ namespace Shos.CsvHelper
                 return (await reader.ReadToEndAsync()).FromCsv<TElement>(hasHeader);
         }
 
-        public static IEnumerable<TElement> ReadCsv<TElement>(this string csvFilePathName, bool hasHeader = true)
+        public static IEnumerable<TElement> ReadCsv<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Open))
                 return stream.ReadCsv<TElement>(hasHeader);
         }
 
-        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this string csvFilePathName, bool hasHeader = true)
+        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Open))

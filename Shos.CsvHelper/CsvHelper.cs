@@ -291,14 +291,14 @@ namespace Shos.CsvHelper
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
-                collection.WriteCsv(stream);
+                collection.WriteCsv(stream, hasHeader);
         }
 
         // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
-                await collection.WriteCsvAsync(stream);
+                await collection.WriteCsvAsync(stream, hasHeader);
         }
 
         public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool hasHeader = true)
@@ -315,14 +315,14 @@ namespace Shos.CsvHelper
                 return (await reader.ReadToEndAsync()).FromCsv<TElement>(hasHeader);
         }
 
-        public static IEnumerable<TElement> ReadCsv<TElement>(this string csvFilePathName, bool hasHeader = true)
+        public static IEnumerable<TElement> ReadCsv<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Open))
                 return stream.ReadCsv<TElement>(hasHeader);
         }
 
-        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this string csvFilePathName, bool hasHeader = true)
+        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Open))
