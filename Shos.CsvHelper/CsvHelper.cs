@@ -47,9 +47,16 @@ namespace Shos.CsvHelper
     public class CsvIgnoreAttribute : Attribute
     {}
 
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ColumnNameAttribute : Attribute
+    {
+        public string Value { get; private set; }
+        public ColumnNameAttribute(string value) => Value = value;
+    }
+
     public static class CsvBuilder
     {
-        const char separator       = ',' ;
+        const char separator       = ',';
         const char doubleQuoration = '\"';
         const char newLine         = '\n';
         const char carriageReturn  = '\r';
@@ -60,7 +67,7 @@ namespace Shos.CsvHelper
             var properties    = typeof(TElement).GetValidProperties();
             var stringBuilder = new StringBuilder();
             if (hasHeader)
-                stringBuilder.AppendLine(properties.Select(property => property.Name.ToCsv()), separator);
+                stringBuilder.AppendLine(properties.Select(property => property.ColumnName().ToCsv()), separator);
             collection.ForEach(element => stringBuilder.AppendCsv(element, properties));
             return stringBuilder.ToString();
         }
@@ -71,10 +78,10 @@ namespace Shos.CsvHelper
         {
             var lines = csv.Split(newLine).Where(line => line.Length > 0);
             if (hasHeader) {
-                var propertyNames = lines.FirstOrDefault()?.SplitCsv();
-                return propertyNames == null
+                var columnNames = lines.FirstOrDefault()?.SplitCsv();
+                return columnNames == null
                        ? null
-                       : lines.Skip(1).Select(line => line.FromCsv<TElement>(propertyNames, typeof(TElement).GetValidProperties()));
+                       : lines.Skip(1).Select(line => line.FromCsv<TElement>(columnNames, typeof(TElement).GetValidProperties()));
             }
             return lines.Select(line => line.FromCsv<TElement>(typeof(TElement).GetValidProperties()));
         }
@@ -84,6 +91,9 @@ namespace Shos.CsvHelper
 
         static bool IsValid(this PropertyInfo property)
             => property.CanRead && property.CanWrite && property.GetCustomAttributes(typeof(CsvIgnoreAttribute)).Count() == 0;
+
+        static string ColumnName(this PropertyInfo property)
+            => ((ColumnNameAttribute)(property.GetCustomAttributes(typeof(ColumnNameAttribute)).SingleOrDefault()))?.Value ?? property.Name;
 
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
             => stringBuilder.AppendLine(properties.Select(property => property.GetValue(element).ToCsv()), separator);
@@ -111,15 +121,15 @@ namespace Shos.CsvHelper
         }
 
         // for Csv with header
-        static TItem FromCsv<TItem>(this string csv, IEnumerable<string> propertyNames, IEnumerable<PropertyInfo> properties)
+        static TItem FromCsv<TItem>(this string csv, IEnumerable<string> columnNames, IEnumerable<PropertyInfo> properties)
             where TItem : new()
         {
-            var csvTable = propertyNames.ToDictionary(csv.SplitCsv());
+            var csvTable = columnNames.ToDictionary(csv.SplitCsv());
             var item     = new TItem();
             properties.ForEach(
                 property => {
-                    if (csvTable.TryGetValue(property.Name, out var propertyCsv)) {
-                        var value = propertyCsv.ToValue(property.PropertyType);
+                    if (csvTable.TryGetValue(property.ColumnName(), out var columnCsv)) {
+                        var value = columnCsv.ToValue(property.PropertyType);
                         if (value != null)
                             property.SetValue(item, value);
                     }
@@ -132,12 +142,12 @@ namespace Shos.CsvHelper
         static TItem FromCsv<TItem>(this string csv, IEnumerable<PropertyInfo> properties)
             where TItem : new()
         {
-            var propertyCsvs = csv.SplitCsv().ToList();
-            var item         = new TItem();
+            var columnCsvs = csv.SplitCsv().ToList();
+            var item       = new TItem();
             properties.ForEach(
                 (index, property) => {
-                    if (index < propertyCsvs.Count) {
-                        var value = propertyCsvs[index].ToValue(property.PropertyType);
+                    if (index < columnCsvs.Count) {
+                        var value = columnCsvs[index].ToValue(property.PropertyType);
                         if (value != null)
                             property.SetValue(item, value);
                     }
@@ -145,7 +155,6 @@ namespace Shos.CsvHelper
             );
             return item;
         }
-
 
         // return value: string or enum or types which can "TryParse" or "Parse"
         // return null : other types

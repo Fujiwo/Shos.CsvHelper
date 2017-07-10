@@ -32,7 +32,8 @@ namespace CsvHelperSample.NetCore
         public DateTime Deadline { get; set; } = DateTime.Now;
         public bool     Done     { get; set; }
         public Priority Priority { get; set; } = Priority.Middle;
-        public string   Detail   { get; set; } = "";
+        [ColumnName("Details")]
+        public string   Detail   { get; set; } = ""; // change column name with [ColumnName("Details")]
         public DaySpan  DaySpan  { get; set; } // type which can't "TryParse" but "Parse"
         [CsvIgnore()]
         public string   Option   { get; set; } = ""; // ignore this property with [CsvIgnore()]
@@ -58,14 +59,16 @@ namespace CsvHelperSample.NetCore
     {
         public static async Task Run()
         {
-            const string csvFileName = "todo.csv";
-
             IEnumerable<ToDo> toDoes = new ToDoList();
             toDoes.ForEach(Console.WriteLine);
             Console.WriteLine();
 
+            // set encoding if you need (the default is UTF8)
+            CsvSerializer.Encoding = System.Text.Encoding.GetEncoding(0);
+
             // write csv with header (recommended)
-            using (var stream = new FileStream(csvFileName, FileMode.Create))
+            const string csvWithHeaderFileName = "todo.withheader.csv";
+            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Create))
                 await toDoes.WriteCsvAsync(stream);
 
             /*
@@ -78,13 +81,14 @@ namespace CsvHelperSample.NetCore
              */
 
             IEnumerable<ToDo> newToDoes;
-            using (var stream = new FileStream(csvFileName, FileMode.Open))
+            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Open))
                 newToDoes = await stream.ReadCsvAsync<ToDo>();
             newToDoes.ForEach(Console.WriteLine);
             Console.WriteLine();
 
             // write csv without header
-            using (var stream = new FileStream(csvFileName, FileMode.Create))
+            const string csvWithoutHeaderFileName = "todo.withoutheader.csv";
+            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Create))
                 toDoes.WriteCsv(stream: stream, hasHeader: false);
 
             /*
@@ -95,7 +99,7 @@ namespace CsvHelperSample.NetCore
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
              */
 
-            using (var stream = new FileStream(csvFileName, FileMode.Open))
+            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Open))
                 newToDoes = stream.ReadCsv<ToDo>(hasHeader: false);
             newToDoes.ForEach(Console.WriteLine);
         }
