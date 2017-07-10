@@ -72,7 +72,7 @@
             /*
             Result: todo.csv
 
-            Id,Title,Deadline,Done,Priority,Detail,DaySpan
+            Id,Title,Deadline,Done,Priority,Details,DaySpan
             1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
             2,report of a business trip,2017/07/06 18:08:13,False,High,"""ASAP""",3
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
