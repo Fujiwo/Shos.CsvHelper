@@ -5,7 +5,7 @@
     <RootNamespace>Shos.CsvHelper</RootNamespace>
     <AssemblyName>Shos.CsvHelper</AssemblyName>
     <Copyright>Copyright © 2017 Fujio Kojima</Copyright>
-    <Version>0.1.0.7</Version>
+    <Version>0.1.0.8</Version>
     <Description>Csv (comma-separated values) Library (.NET Standard Library)
 
 A library for reading objects from CSV files and writing objects to CSV files.
@@ -14,12 +14,12 @@ A library for reading objects from CSV files and writing objects to CSV files.
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
-    <AssemblyVersion>0.1.0.7</AssemblyVersion>
-    <FileVersion>0.1.0.7</FileVersion>
+    <AssemblyVersion>0.1.0.8</AssemblyVersion>
+    <FileVersion>0.1.0.8</FileVersion>
     <PackageTags>csv csvhelper comma separated value delimited</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fujio Kojima</Authors>
-    <Company>Shos Software</Company>
+    <Company>Sho's Software</Company>
   </PropertyGroup>
 
 </Project>

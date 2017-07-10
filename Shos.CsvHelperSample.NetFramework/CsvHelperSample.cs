@@ -1,10 +1,9 @@
-﻿namespace CsvHelperSample.NetFramework
+﻿namespace Shos.CsvHelperSample
 {
     using Shos.CsvHelper;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
 
     enum Priority { High, Middle, Low }
@@ -25,17 +24,17 @@
         // for writing: type of each property should have "get" and "set"
         // for reading: type of each property should have "get" and "set" and should be string or enum or type which can "TryParse" or "Parse"
 
-        public int      Id       { get; set; }
-        public string   Title    { get; set; } = "";
+        public int Id { get; set; }
+        public string Title { get; set; } = "";
         public DateTime Deadline { get; set; } = DateTime.Now;
-        public bool     Done     { get; set; }
+        public bool Done { get; set; }
         public Priority Priority { get; set; } = Priority.Middle;
         [ColumnName("Details")]
-        public string   Detail   { get; set; } = ""; // change column name with [ColumnName("Details")]
-        public DaySpan  DaySpan  { get; set; } // type which can't "TryParse" but "Parse"
+        public string Detail { get; set; } = ""; // change column name with [ColumnName("Details")]
+        public DaySpan DaySpan { get; set; } // type which can't "TryParse" but "Parse"
         [CsvIgnore()]
-        public string   Option   { get; set; } = ""; // ignore this property with [CsvIgnore()]
-        public string   Version => "1.0"; // read only or write only property will be ignored
+        public string Option { get; set; } = ""; // ignore this property with [CsvIgnore()]
+        public string Version => "1.0"; // read only or write only property will be ignored
 
         public override string ToString()
             => $"Id: {Id}, Title: {Title}, Deadline: {Deadline.ToString()}, Done: {Done}, Priority: {Priority}, Detail: {Detail}, DaySpan: {DaySpan}";
@@ -66,8 +65,7 @@
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
-            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Create))
-                await toDoes.WriteCsvAsync(stream);
+            await toDoes.WriteCsvAsync(csvWithHeaderFileName);
 
             /*
             Result: todo.csv
@@ -78,16 +76,13 @@
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
              */
 
-            IEnumerable<ToDo> newToDoes;
-            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Open))
-                newToDoes = await stream.ReadCsvAsync<ToDo>();
+            IEnumerable<ToDo> newToDoes = await csvWithHeaderFileName.ReadCsvAsync<ToDo>();
             newToDoes.ForEach(Console.WriteLine);
             Console.WriteLine();
 
             // write csv without header
             const string csvWithoutHeaderFileName = "todo.withoutheader.csv";
-            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Create))
-                toDoes.WriteCsv(stream: stream, hasHeader: false);
+            toDoes.WriteCsv(csvFilePathName: csvWithoutHeaderFileName, hasHeader: false);
 
             /*
             Result: todo.csv
@@ -97,8 +92,7 @@
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
              */
 
-            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Open))
-                newToDoes = stream.ReadCsv<ToDo>(hasHeader: false);
+            newToDoes = csvWithoutHeaderFileName.ReadCsv<ToDo>(hasHeader: false);
             newToDoes.ForEach(Console.WriteLine);
         }
     }

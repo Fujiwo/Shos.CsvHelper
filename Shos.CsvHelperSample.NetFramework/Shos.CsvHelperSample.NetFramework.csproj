@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6373C47E-0A89-4151-85DA-C1907E413652}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Shos.CsvHelperSample.NetFramework</RootNamespace>
-    <AssemblyName>Shos.CsvHelperSample.NetFramework</AssemblyName>
+    <RootNamespace>Shos.CsvHelperSample</RootNamespace>
+    <AssemblyName>Shos.CsvHelperSample</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

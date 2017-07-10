@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Shos.CsvHelper.NetFramework")]
 [assembly: AssemblyDescription("Csv (comma-separated values) Library for .NET Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Sho's Software")]
 [assembly: AssemblyProduct("Shos.CsvHelper.NetFramework")]
 [assembly: AssemblyCopyright("Copyright © 2017 Fujio Kojima")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 以下のように '*' を使用します:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.7")]
-[assembly: AssemblyFileVersion("0.1.0.7")]
+[assembly: AssemblyVersion("0.1.0.8")]
+[assembly: AssemblyFileVersion("0.1.0.8")]

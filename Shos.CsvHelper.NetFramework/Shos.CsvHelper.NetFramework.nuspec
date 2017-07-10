@@ -2,10 +2,10 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Shos.CsvHelper.NetFramework</id>
-    <version>0.1.0.7</version>
+    <version>0.1.0.8</version>
     <title>Shos.CsvHelper.NetFramework</title>
     <authors>Fujio Kojima</authors>
-    <owners>Shos Software</owners>
+    <owners>Sho's Software</owners>
     <projectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>

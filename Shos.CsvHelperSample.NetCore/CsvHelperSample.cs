@@ -1,12 +1,11 @@
 ﻿// .NET Core 1.1 or later
 
-namespace CsvHelperSample.NetCore
+namespace Shos.CsvHelperSample
 {
     using Shos.CsvHelper;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
 
     enum Priority { High, Middle, Low }
@@ -68,8 +67,7 @@ namespace CsvHelperSample.NetCore
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
-            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Create))
-                await toDoes.WriteCsvAsync(stream);
+            await toDoes.WriteCsvAsync(csvWithHeaderFileName);
 
             /*
             Result: todo.csv
@@ -80,16 +78,13 @@ namespace CsvHelperSample.NetCore
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
              */
 
-            IEnumerable<ToDo> newToDoes;
-            using (var stream = new FileStream(csvWithHeaderFileName, FileMode.Open))
-                newToDoes = await stream.ReadCsvAsync<ToDo>();
+            IEnumerable<ToDo> newToDoes = await csvWithHeaderFileName.ReadCsvAsync<ToDo>();
             newToDoes.ForEach(Console.WriteLine);
             Console.WriteLine();
 
             // write csv without header
             const string csvWithoutHeaderFileName = "todo.withoutheader.csv";
-            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Create))
-                toDoes.WriteCsv(stream: stream, hasHeader: false);
+            toDoes.WriteCsv(csvFilePathName: csvWithoutHeaderFileName, hasHeader: false);
 
             /*
             Result: todo.csv
@@ -99,8 +94,7 @@ namespace CsvHelperSample.NetCore
             3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
              */
 
-            using (var stream = new FileStream(csvWithoutHeaderFileName, FileMode.Open))
-                newToDoes = stream.ReadCsv<ToDo>(hasHeader: false);
+            newToDoes = csvWithoutHeaderFileName.ReadCsv<ToDo>(hasHeader: false);
             newToDoes.ForEach(Console.WriteLine);
         }
     }
