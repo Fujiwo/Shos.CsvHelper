@@ -4,6 +4,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Text;
     using System.Threading.Tasks;
 
     class Program
@@ -15,11 +16,17 @@
     {
         public static async Task Run()
         {
-            IEnumerable<ToDo> toDoes = new ToDoList(); // Something IEnumerable<TElement>
+            // something IEnumerable<TElement>
+            // TElement:
+            // public properties of TElement will be written and read as csv
+            // for writing: type of each property should have "get" and "set"
+            // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+
+            IEnumerable<ToDo> toDoes = new ToDoList();
             toDoes.Show();
 
             // set encoding if you need (the default is UTF8)
-            CsvSerializer.Encoding = System.Text.Encoding.GetEncoding(0);
+            CsvSerializer.Encoding = Encoding.GetEncoding(0);
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
@@ -74,9 +81,9 @@
 
     class ToDo // sample class
     {
-        // public properties will be write and read as csv
+        // public properties will be written and read as csv
         // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which can "TryParse" or "Parse"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
 
         public int      Id       { get; set; }
         public string   Title    { get; set; } = "";

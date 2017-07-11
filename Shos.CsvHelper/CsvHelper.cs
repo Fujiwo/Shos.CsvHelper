@@ -72,7 +72,6 @@ namespace Shos.CsvHelper
             return stringBuilder.ToString();
         }
 
-        // for string or enum or types which can "TryParse" or "Parse"
         public static IEnumerable<TElement> FromCsv<TElement>(this string csv, bool hasHeader = true)
             where TElement : new()
         {
@@ -121,6 +120,7 @@ namespace Shos.CsvHelper
         }
 
         // for Csv with header
+        // type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         static TItem FromCsv<TItem>(this string csv, IEnumerable<string> columnNames, IEnumerable<PropertyInfo> properties)
             where TItem : new()
         {
@@ -139,6 +139,7 @@ namespace Shos.CsvHelper
         }
 
         // for Csv without header
+        // type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         static TItem FromCsv<TItem>(this string csv, IEnumerable<PropertyInfo> properties)
             where TItem : new()
         {
@@ -273,6 +274,7 @@ namespace Shos.CsvHelper
     {
         public static Encoding Encoding { get; set; } = Encoding.UTF8;
 
+        // write IEnumerable<TElement> to a csv file
         // header is recommended
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
@@ -280,6 +282,7 @@ namespace Shos.CsvHelper
                 writer.Write(collection.ToCsv(hasHeader));
         }
 
+        // write IEnumerable<TElement> to a csv file asynchronously
         // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
@@ -287,6 +290,7 @@ namespace Shos.CsvHelper
                 await writer.WriteAsync(collection.ToCsv(hasHeader));
         }
 
+        // write IEnumerable<TElement> to a csv file
         // header is recommended
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
@@ -294,6 +298,7 @@ namespace Shos.CsvHelper
                 collection.WriteCsv(stream, hasHeader);
         }
 
+        // write IEnumerable<TElement> to a csv file asynchronously
         // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
@@ -301,6 +306,11 @@ namespace Shos.CsvHelper
                 await collection.WriteCsvAsync(stream, hasHeader);
         }
 
+        // read IEnumerable<TElement> from a csv file
+        // TElement:
+        // public properties of TElement will be written and read as csv
+        // for writing: type of each property should have "get" and "set"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
@@ -308,6 +318,11 @@ namespace Shos.CsvHelper
                 return reader.ReadToEnd().FromCsv<TElement>(hasHeader);
         }
 
+        // read IEnumerable<TElement> from a csv file asynchronously
+        // TElement:
+        // public properties of TElement will be written and read as csv
+        // for writing: type of each property should have "get" and "set"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
@@ -315,6 +330,11 @@ namespace Shos.CsvHelper
                 return (await reader.ReadToEndAsync()).FromCsv<TElement>(hasHeader);
         }
 
+        // read IEnumerable<TElement> from a csv file
+        // TElement:
+        // public properties of TElement will be written and read as csv
+        // for writing: type of each property should have "get" and "set"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         public static IEnumerable<TElement> ReadCsv<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
@@ -322,6 +342,11 @@ namespace Shos.CsvHelper
                 return stream.ReadCsv<TElement>(hasHeader);
         }
 
+        // read IEnumerable<TElement> from a csv file asynchronously
+        // TElement:
+        // public properties of TElement will be written and read as csv
+        // for writing: type of each property should have "get" and "set"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
         public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {

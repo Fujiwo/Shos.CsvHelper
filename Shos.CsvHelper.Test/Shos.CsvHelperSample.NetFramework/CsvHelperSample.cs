@@ -1,38 +1,9 @@
-# Shos.CsvHelper
-Csv (comma-separated values) Library
-
-## Projects
-
-### Shos.CsvHelper
-* Csv (comma-separated values) Library
-* .NET Standard Library
-* .NET Standard 1.3 or later
-* for .NET Network 4.6 or later, .NET Core 1.1 or later
-* Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper](https://www.nuget.org/packages/Shos.CsvHelper "NuGet Gallery | Shos.CsvHelper")
-
-### Shos.CsvHelper.NetFramework
-* Csv (comma-separated values) Library for .NET Framework
-* .NET Framework 4.5.2 or later
-* Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper.NetFramework](https://www.nuget.org/packages/Shos.CsvHelper.NetFramework "NuGet Gallery | Shos.CsvHelper.NetFramework")
-
-### Shos.CsvHelperSample.NetCore
-* .NET Core Console Sample for Shos.CsvHelper
-
-### Shos.CsvHelperSample.NetFramework
-* .NET Framework Console Sample for Shos.CsvHelper.NetFramework
-
-## Sample
-
-CsvHelperSample.cs | Shos.CsvHelperSample.NetCore or Shos.CsvHelperSample.NetFramework
-
-```C#
-namespace Shos.CsvHelperSample
+﻿namespace Shos.CsvHelperSample
 {
     using Shos.CsvHelper;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
     class Program
@@ -44,17 +15,11 @@ namespace Shos.CsvHelperSample
     {
         public static async Task Run()
         {
-            // something IEnumerable<TElement>
-            // TElement:
-            // public properties of TElement will be written and read as csv
-            // for writing: type of each property should have "get" and "set"
-            // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
-
-            IEnumerable<ToDo> toDoes = new ToDoList();
+            IEnumerable<ToDo> toDoes = new ToDoList(); // Something IEnumerable<TElement>
             toDoes.Show();
 
             // set encoding if you need (the default is UTF8)
-            CsvSerializer.Encoding = Encoding.GetEncoding(0);
+            CsvSerializer.Encoding = System.Text.Encoding.GetEncoding(0);
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
@@ -109,9 +74,9 @@ namespace Shos.CsvHelperSample
 
     class ToDo // sample class
     {
-        // public properties will be written and read as csv
+        // public properties will be write and read as csv
         // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        // for reading: type of each property should have "get" and "set" and should be string or enum or type which can "TryParse" or "Parse"
 
         public int      Id       { get; set; }
         public string   Title    { get; set; } = "";
@@ -141,6 +106,3 @@ namespace Shos.CsvHelperSample
         public override string ToString() => Value.ToString();
     }
 }
-```
-
-
