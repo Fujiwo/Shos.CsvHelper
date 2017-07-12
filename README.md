@@ -1,6 +1,8 @@
 # Shos.CsvHelper
 Csv (comma-separated values) Library
 
+Japanse document: [Shos.CsvHelper | Programming C# (Sho's Software)](http://blog.shos.info/archives/2017/07/shocsvhelper.html "Shos.CsvHelper | Programming C# (Sho's Software)")
+
 ## Projects
 
 ### Shos.CsvHelper
