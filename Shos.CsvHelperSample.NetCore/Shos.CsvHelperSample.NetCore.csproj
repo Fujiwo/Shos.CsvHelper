@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
     <AssemblyVersion>1.0.0.8</AssemblyVersion>
     <FileVersion>1.0.0.7</FileVersion>
-    <Version>1.0.0.8</Version>
+    <Version>1.0.0.9</Version>
     <RootNamespace>Shos.CsvHelperSample</RootNamespace>
     <AssemblyName>Shos.CsvHelperSample</AssemblyName>
   </PropertyGroup>

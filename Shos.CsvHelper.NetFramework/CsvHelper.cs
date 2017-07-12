@@ -1,4 +1,8 @@
 ﻿// Csv(comma-separated values) Library
+//
+// .NET Standard 1.3 or later
+//     for .NET Network 4.6 or later, .NET Core 1.1 or later
+//
 // .NET Framework 4.5.2 or later
 
 namespace Shos.CsvHelper
@@ -55,7 +59,9 @@ namespace Shos.CsvHelper
 
     public static class CsvBuilder
     {
-        const char separator       = ',';
+        public static char Separator { get; set; }  = comma;
+
+        const char comma           = ',' ;
         const char doubleQuoration = '\"';
         const char newLine         = '\n';
         const char carriageReturn  = '\r';
@@ -66,7 +72,7 @@ namespace Shos.CsvHelper
             var properties    = typeof(TElement).GetValidProperties();
             var stringBuilder = new StringBuilder();
             if (hasHeader)
-                stringBuilder.AppendLine(properties.Select(property => property.ColumnName().ToCsv()), separator);
+                stringBuilder.AppendLine(properties.Select(property => property.ColumnName().ToCsv()), Separator);
             collection.ForEach(element => stringBuilder.AppendCsv(element, properties));
             return stringBuilder.ToString();
         }
@@ -74,7 +80,7 @@ namespace Shos.CsvHelper
         public static IEnumerable<TElement> FromCsv<TElement>(this string csv, bool hasHeader = true)
             where TElement : new()
         {
-            var lines = csv.Split(newLine).Where(line => line.Length > 0);
+            var lines = csv.SplitToLines();
             if (hasHeader) {
                 var columnNames = lines.FirstOrDefault()?.SplitCsv();
                 return columnNames == null
@@ -82,6 +88,29 @@ namespace Shos.CsvHelper
                        : lines.Skip(1).Select(line => line.FromCsv<TElement>(columnNames, typeof(TElement).GetValidProperties()));
             }
             return lines.Select(line => line.FromCsv<TElement>(typeof(TElement).GetValidProperties()));
+        }
+
+        static IEnumerable<string> SplitToLines(this string csv)
+        {
+            bool readingDoubleQuotation = false;
+            var stringBuilder           = new StringBuilder();
+            foreach (var character in csv) {
+                if (character == doubleQuoration) {
+                    readingDoubleQuotation = !readingDoubleQuotation;
+                } else if (character == newLine || character == carriageReturn) {
+                    if (!readingDoubleQuotation) {
+                        var line = stringBuilder.ToString();
+                        stringBuilder.Clear();
+                        if (line.Length > 0)
+                            yield return line;
+                        continue;
+                    }
+                }
+                stringBuilder.Append(character);
+            }
+            var lastLine = stringBuilder.ToString();
+            if (lastLine.Length > 0)
+                yield return lastLine;
         }
 
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
@@ -94,17 +123,20 @@ namespace Shos.CsvHelper
             => ((ColumnNameAttribute)(property.GetCustomAttributes(typeof(ColumnNameAttribute)).SingleOrDefault()))?.Value ?? property.Name;
 
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
-            => stringBuilder.AppendLine(properties.Select(property => property.GetValue(element).ToCsv()), separator);
+            => stringBuilder.AppendLine(properties.Select(property => property.GetValue(element).ToCsv()), Separator);
 
         static string ToCsv(this object item) => item.ToString().ToCsv();
 
         static string ToCsv(this string text)
         {
             var csv = text.Replace(new string(doubleQuoration, 1), new string(doubleQuoration, 2));
-            if (csv.Contains(separator) || csv.Contains(doubleQuoration))
-                csv = doubleQuoration + csv + doubleQuoration;
-            return csv;
+            return csv.NeedsDoubleQuorations()
+                   ? doubleQuoration + csv + doubleQuoration
+                   : csv;
         }
+
+        static bool NeedsDoubleQuorations(this string text)
+            => text.Any(character => character == Separator || character == comma || character == doubleQuoration || character == newLine || character == carriageReturn);
 
         static void AppendLine(this StringBuilder stringBuilder, IEnumerable<string> texts, char separator)
         {
@@ -208,8 +240,6 @@ namespace Shos.CsvHelper
             var stringBuilder = new StringBuilder();
             var reader        = new CsvValueReader();
             foreach (var character in csv) {
-                if (character == newLine || character == carriageReturn)
-                    break;
                 var itemText = reader.Read(stringBuilder, character, ref reader);
                 if (itemText != null)
                     yield return itemText;
@@ -221,16 +251,12 @@ namespace Shos.CsvHelper
         {
             public virtual string Read(StringBuilder stringBuilder, char character, ref CsvValueReader reader)
             {
-                switch (character) {
-                    case separator:
-                        return ToText(stringBuilder, ref reader);
-                    case doubleQuoration:
-                        reader = new CsvValueInDoubleQuotationReader();
-                        break;
-                    default:
-                        stringBuilder.Append(character);
-                        break;
-                }
+                if (character == Separator      )
+                    return ToText(stringBuilder, ref reader);
+                if (character == doubleQuoration)
+                    reader = new CsvValueInDoubleQuotationReader();
+                else
+                    stringBuilder.Append(character);
                 return null;
             }
 
@@ -249,20 +275,16 @@ namespace Shos.CsvHelper
 
             public override string Read(StringBuilder stringBuilder, char character, ref CsvValueReader reader)
             {
-                switch (character) {
-                    case separator:
-                        if (readingDoubleQuotation)
-                            return ToText(stringBuilder, ref reader);
+                if        (character == Separator      ) {
+                    if (readingDoubleQuotation)
+                        return ToText(stringBuilder, ref reader);
+                    stringBuilder.Append(character);
+                } else if (character == doubleQuoration) {
+                    if (readingDoubleQuotation)
                         stringBuilder.Append(character);
-                        break;
-                    case doubleQuoration:
-                        if (readingDoubleQuotation)
-                            stringBuilder.Append(character);
-                        readingDoubleQuotation = !readingDoubleQuotation;
-                        break;
-                    default:
-                        stringBuilder.Append(character);
-                        break;
+                    readingDoubleQuotation = !readingDoubleQuotation;
+                } else {
+                    stringBuilder.Append(character);
                 }
                 return null;
             }
@@ -272,6 +294,11 @@ namespace Shos.CsvHelper
     public static class CsvSerializer
     {
         public static Encoding Encoding { get; set; } = Encoding.UTF8;
+
+        public static char Separator {
+            get => CsvBuilder.Separator        ;
+            set => CsvBuilder.Separator = value;
+        }
 
         // write IEnumerable<TElement> to a csv file
         // header is recommended
@@ -354,4 +381,3 @@ namespace Shos.CsvHelper
         }
     }
 }
-

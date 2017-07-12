@@ -1,4 +1,7 @@
-﻿namespace Shos.CsvHelperSample
+﻿// .NET Core 1.1 or later
+// .NET Framework 4.5.2 or later
+
+namespace Shos.CsvHelperSample
 {
     using Shos.CsvHelper;
     using System;
@@ -28,17 +31,23 @@
             // set encoding if you need (the default is UTF8)
             CsvSerializer.Encoding = Encoding.GetEncoding(0);
 
+            // set separator if you need (the default is ',')
+            //CsvSerializer.Separator = '\t';
+
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
             await toDoes.WriteCsvAsync(csvWithHeaderFileName);
 
             /*
-            Result: todo.csv
+            Result: todo.withheader.csv
 
-            Id,Title,Deadline,Done,Priority,Details,DaySpan
-            1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
-            2,report of a business trip,2017/07/06 18:08:13,False,High,"""ASAP""",3
-            3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
+Id,Title,Deadline,Done,Priority,Details,DaySpan
+1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
+2,report of a business trip,2017/07/12 13:13:01,False,High,"""ASAP""",3
+3,expense slips,2017/07/12 13:13:01,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
+4, wish list ,2017/07/12 13:13:01,False,High," 	 (1) ""milk""
+ 	 (2) shampoo
+ 	 (3) tissue ",0
              */
 
             IEnumerable<ToDo> newToDoes = await CsvSerializer.ReadCsvAsync<ToDo>(csvFilePathName: csvWithHeaderFileName);
@@ -49,11 +58,14 @@
             toDoes.WriteCsv(csvFilePathName: csvWithoutHeaderFileName, hasHeader: false);
 
             /*
-            Result: todo.csv
+            Result: todo.withoutheader.csv
 
-            1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
-            2,report of a business trip,2017/07/06 18:08:13,False,High,"""ASAP""",3
-            3,expense slips,2017/07/06 18:08:13,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
+1,filing tax returns,2018/12/01 0:00:00,False,Middle,,0
+2,report of a business trip,2017/07/12 13:13:01,False,High,"""ASAP""",3
+3,expense slips,2017/07/12 13:13:01,True,Low,"book expenses: ""C# 6.0 and the .NET 4.6 Framework"",""The C# Programming""",0
+4, wish list ,2017/07/12 13:13:01,False,High," 	 (1) ""milk""
+ 	 (2) shampoo
+ 	 (3) tissue ",0
              */
 
             newToDoes = CsvSerializer.ReadCsv<ToDo>(csvFilePathName: csvWithoutHeaderFileName, hasHeader: false);
@@ -74,6 +86,7 @@
             yield return new ToDo { Id = 1, Title = "filing tax returns", Deadline = new DateTime(2018, 12, 1) };
             yield return new ToDo { Id = 2, Title = "report of a business trip", Detail = "\"ASAP\"", DaySpan = new DaySpan(3), Priority = Priority.High };
             yield return new ToDo { Id = 3, Title = "expense slips", Detail = "book expenses: \"C# 6.0 and the .NET 4.6 Framework\",\"The C# Programming\"", Priority = Priority.Low, Done = true };
+            yield return new ToDo { Id = 4, Title = " wish list ", Detail = " \t (1) \"milk\"\n \t (2) shampoo\n \t (3) tissue ", Priority = Priority.High };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
