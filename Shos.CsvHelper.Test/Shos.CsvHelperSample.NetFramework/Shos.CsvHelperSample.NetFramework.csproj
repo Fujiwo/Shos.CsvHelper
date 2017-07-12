@@ -50,8 +50,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Shos.CsvHelper.NetFramework, Version=0.1.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Shos.CsvHelper.NetFramework.0.1.0.9\lib\Shos.CsvHelper.NetFramework.dll</HintPath>
+    <Reference Include="Shos.CsvHelper.NetFramework, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shos.CsvHelper.NetFramework.0.1.1.0\lib\Shos.CsvHelper.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

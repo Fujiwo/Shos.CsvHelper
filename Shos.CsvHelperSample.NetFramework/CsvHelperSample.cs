@@ -102,10 +102,10 @@ Id,Title,Deadline,Done,Priority,Details,DaySpan
         public string   Title    { get; set; } = "";              // yes
         public DateTime Deadline { get; set; } = DateTime.Now;    // yes
         public bool     Done     { get; set; }                    // yes
-        public Priority Priority { get; set; } = Priority.Middle; // yes
+        public Priority Priority { get; set; } = Priority.Middle; // yes: user-defined enum
         [ColumnName("Details")]
         public string   Detail   { get; set; } = "";              // yes: change column name with [ColumnName("Details")]
-        public DaySpan  DaySpan  { get; set; }                    // yes: type which can't "TryParse" but "Parse"
+        public DaySpan  DaySpan  { get; set; }                    // yes: user-defined type which can't "TryParse" but "Parse"
         [CsvIgnore()]
         public string   Option   { get; set; } = "";              // no : ignore this property with [CsvIgnore()]
         public string   Version => "1.0";                         // no : read only or write only property will be ignored
