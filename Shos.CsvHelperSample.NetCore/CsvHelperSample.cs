@@ -32,7 +32,7 @@ namespace Shos.CsvHelperSample
             CsvSerializer.Encoding = Encoding.GetEncoding(0);
 
             // set separator if you need (the default is ',')
-            //CsvSerializer.Separator = '\t';
+    
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
@@ -98,17 +98,17 @@ Id,Title,Deadline,Done,Priority,Details,DaySpan
         // for writing: type of each property should have "get" and "set"
         // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
 
-        public int      Id       { get; set; }
-        public string   Title    { get; set; } = "";
-        public DateTime Deadline { get; set; } = DateTime.Now;
-        public bool     Done     { get; set; }
-        public Priority Priority { get; set; } = Priority.Middle;
+        public int      Id       { get; set; }                    // yes (this property will be written and read as csv)
+        public string   Title    { get; set; } = "";              // yes
+        public DateTime Deadline { get; set; } = DateTime.Now;    // yes
+        public bool     Done     { get; set; }                    // yes
+        public Priority Priority { get; set; } = Priority.Middle; // yes
         [ColumnName("Details")]
-        public string   Detail   { get; set; } = ""; // change column name with [ColumnName("Details")]
-        public DaySpan  DaySpan  { get; set; } // type which can't "TryParse" but "Parse"
+        public string   Detail   { get; set; } = "";              // yes: change column name with [ColumnName("Details")]
+        public DaySpan  DaySpan  { get; set; }                    // yes: type which can't "TryParse" but "Parse"
         [CsvIgnore()]
-        public string   Option   { get; set; } = ""; // ignore this property with [CsvIgnore()]
-        public string   Version => "1.0"; // read only or write only property will be ignored
+        public string   Option   { get; set; } = "";              // no : ignore this property with [CsvIgnore()]
+        public string   Version => "1.0";                         // no : read only or write only property will be ignored
 
         public override string ToString()
             => $"Id: {Id}, Title: {Title}, Deadline: {Deadline.ToString()}, Done: {Done}, Priority: {Priority}, Detail: {Detail}, DaySpan: {DaySpan}";

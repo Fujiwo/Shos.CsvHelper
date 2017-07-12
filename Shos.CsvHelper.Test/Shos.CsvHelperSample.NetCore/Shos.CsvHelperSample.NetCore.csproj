@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shos.CsvHelper" Version="0.1.0.8" />
+    <PackageReference Include="Shos.CsvHelper" Version="0.1.0.9" />
   </ItemGroup>
 
 </Project>
