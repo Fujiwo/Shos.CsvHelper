@@ -16,7 +16,7 @@ namespace Shos.CsvHelper
     using System.Text;
     using System.Threading.Tasks;
 
-    public static class EnumerableHelper
+    static class EnumerableHelper
     {
         public static void ForEach<TElement>(this IEnumerable<TElement> collection, Action<TElement> action)
         {
@@ -44,6 +44,18 @@ namespace Shos.CsvHelper
             foreach (var element in collection)
                 yield return (TElement)element;
         }
+
+        public static void ForEachObject(this IEnumerable collection, Action<object> action)
+        {
+            foreach (var element in collection)
+                action(element);
+        }
+
+        public static object FirstObjectOrDefault(this IEnumerable collection)
+        {
+            var enumerator = collection.GetEnumerator();
+            return enumerator.MoveNext() ? enumerator.Current : null;
+        }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -57,7 +69,7 @@ namespace Shos.CsvHelper
         public ColumnNameAttribute(string value) => Value = value;
     }
 
-    public static class CsvBuilder
+    static class CsvBuilder
     {
         public static char Separator { get; set; }  = comma;
 
@@ -74,6 +86,21 @@ namespace Shos.CsvHelper
             if (hasHeader)
                 stringBuilder.AppendLine(properties.Select(property => property.ColumnName().ToCsv()), Separator);
             collection.ForEach(element => stringBuilder.AppendCsv(element, properties));
+            return stringBuilder.ToString();
+        }
+
+        // header is recommended
+        public static string ObjectsToCsv(this IEnumerable collection, bool hasHeader = true)
+        {
+            var firstElement = collection.FirstObjectOrDefault();
+            if (firstElement == null)
+                return "";
+
+            var properties    = firstElement.GetType().GetValidProperties();
+            var stringBuilder = new StringBuilder();
+            if (hasHeader)
+                stringBuilder.AppendLine(properties.Select(property => property.ColumnName().ToCsv()), Separator);
+            collection.ForEachObject(element => stringBuilder.AppendCsv(element, properties));
             return stringBuilder.ToString();
         }
 
@@ -95,7 +122,7 @@ namespace Shos.CsvHelper
             bool readingDoubleQuotation = false;
             var stringBuilder           = new StringBuilder();
             foreach (var character in csv) {
-                if        (character == doubleQuoration                       ) {
+                if (character == doubleQuoration) {
                     readingDoubleQuotation = !readingDoubleQuotation;
                 } else if (character == newLine || character == carriageReturn) {
                     if (!readingDoubleQuotation) {
@@ -308,12 +335,28 @@ namespace Shos.CsvHelper
                 writer.Write(collection.ToCsv(hasHeader));
         }
 
+        // write IEnumerable to a csv file
+        // header is recommended
+        public static void WriteCsv(this IEnumerable collection, Stream stream, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding))
+                writer.Write(collection.ObjectsToCsv(hasHeader));
+        }
+
         // write IEnumerable<TElement> to a csv file asynchronously
         // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 await writer.WriteAsync(collection.ToCsv(hasHeader));
+        }
+
+        // write IEnumerable to a csv file asynchronously
+        // header is recommended
+        public static async Task WriteCsvAsync(this IEnumerable collection, Stream stream, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding))
+                await writer.WriteAsync(collection.ObjectsToCsv(hasHeader));
         }
 
         // write IEnumerable<TElement> to a csv file
@@ -324,9 +367,25 @@ namespace Shos.CsvHelper
                 collection.WriteCsv(stream, hasHeader);
         }
 
+        // write IEnumerable to a csv file
+        // header is recommended
+        public static void WriteCsv(this IEnumerable collection, string csvFilePathName, bool hasHeader = true)
+        {
+            using (var stream = new FileStream(csvFilePathName, FileMode.Create))
+                collection.WriteCsv(stream, hasHeader);
+        }
+
         // write IEnumerable<TElement> to a csv file asynchronously
         // header is recommended
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
+        {
+            using (var stream = new FileStream(csvFilePathName, FileMode.Create))
+                await collection.WriteCsvAsync(stream, hasHeader);
+        }
+
+        // write IEnumerable to a csv file asynchronously
+        // header is recommended
+        public static async Task WriteCsvAsync(this IEnumerable collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
                 await collection.WriteCsvAsync(stream, hasHeader);

@@ -7,6 +7,7 @@ namespace Shos.CsvHelperSample
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -74,7 +75,7 @@ Id,Title,Deadline,Done,Priority,Details,DaySpan
 
         static void Show<TElement>(this IEnumerable<TElement> collection)
         {
-            collection.ForEach(element => Console.WriteLine(element));
+            collection.ToList().ForEach(element => Console.WriteLine(element));
             Console.WriteLine();
         }
     }
