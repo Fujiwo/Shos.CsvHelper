@@ -95,7 +95,7 @@ namespace Shos.CsvHelper
             bool readingDoubleQuotation = false;
             var stringBuilder           = new StringBuilder();
             foreach (var character in csv) {
-                if (character == doubleQuoration) {
+                if        (character == doubleQuoration                       ) {
                     readingDoubleQuotation = !readingDoubleQuotation;
                 } else if (character == newLine || character == carriageReturn) {
                     if (!readingDoubleQuotation) {

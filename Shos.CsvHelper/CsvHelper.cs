@@ -95,9 +95,9 @@ namespace Shos.CsvHelper
             bool readingDoubleQuotation = false;
             var stringBuilder           = new StringBuilder();
             foreach (var character in csv) {
-                if (character.Equals(doubleQuoration)) {
+                if (character == doubleQuoration) {
                     readingDoubleQuotation = !readingDoubleQuotation;
-                } else if (character.Equals(newLine) || character.Equals(carriageReturn)) {
+                } else if (character == newLine || character == carriageReturn) {
                     if (!readingDoubleQuotation) {
                         var line = stringBuilder.ToString();
                         stringBuilder.Clear();
@@ -136,7 +136,7 @@ namespace Shos.CsvHelper
         }
 
         static bool NeedsDoubleQuorations(this string text)
-            => text.Any(character => character.Equals(Separator) || character.Equals(comma) || character.Equals(doubleQuoration) || character.Equals(newLine) || character.Equals(carriageReturn));
+            => text.Any(character => character == Separator || character == comma || character == doubleQuoration || character == newLine || character == carriageReturn);
 
         static void AppendLine(this StringBuilder stringBuilder, IEnumerable<string> texts, char separator)
         {
@@ -192,7 +192,7 @@ namespace Shos.CsvHelper
         // return null : other types
         static object ToValue(this string text, Type type)
         {
-            if (type.FullName.Equals("System.String"))
+            if (type.FullName == "System.String")
                 return text;
             if (type.GetTypeInfo().IsEnum)
                 return text.EnumToValue(type);
@@ -251,9 +251,9 @@ namespace Shos.CsvHelper
         {
             public virtual string Read(StringBuilder stringBuilder, char character, ref CsvValueReader reader)
             {
-                if (character.Equals(Separator))
+                if (character == Separator      )
                     return ToText(stringBuilder, ref reader);
-                if (character.Equals(doubleQuoration))
+                if (character == doubleQuoration)
                     reader = new CsvValueInDoubleQuotationReader();
                 else
                     stringBuilder.Append(character);
@@ -275,11 +275,11 @@ namespace Shos.CsvHelper
 
             public override string Read(StringBuilder stringBuilder, char character, ref CsvValueReader reader)
             {
-                if (character.Equals(Separator)) {
+                if        (character == Separator      ) {
                     if (readingDoubleQuotation)
                         return ToText(stringBuilder, ref reader);
                     stringBuilder.Append(character);
-                } else if (character.Equals(doubleQuoration)) {
+                } else if (character == doubleQuoration) {
                     if (readingDoubleQuotation)
                         stringBuilder.Append(character);
                     readingDoubleQuotation = !readingDoubleQuotation;
