@@ -33,7 +33,7 @@ namespace Shos.CsvHelperSample
             CsvSerializer.Encoding = Encoding.GetEncoding(0);
 
             // set separator if you need (the default is ',')
-    
+            //CsvSerializer.Separator = '\t';
 
             // write csv with header (recommended)
             const string csvWithHeaderFileName = "todo.withheader.csv";
