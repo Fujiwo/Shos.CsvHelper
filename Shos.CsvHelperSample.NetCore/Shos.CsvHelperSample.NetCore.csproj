@@ -2,17 +2,18 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <Description>.NET Core Console Sample for Shos.CsvHelper</Description>
     <Copyright>Copyright © 2017 Fujio Kojima</Copyright>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
-    <AssemblyVersion>1.0.1.2</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
-    <Version>1.0.1.2</Version>
+    <AssemblyVersion>1.0.1.3</AssemblyVersion>
+    <FileVersion>1.0.1.3</FileVersion>
+    <Version>1.0.1.3</Version>
     <RootNamespace>Shos.CsvHelperSample</RootNamespace>
     <AssemblyName>Shos.CsvHelperSample</AssemblyName>
-    <PackageLicenseUrl>https://github.com/Fujiwo/Shos.CsvHelper/blob/master/license</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

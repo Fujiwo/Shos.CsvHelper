@@ -327,75 +327,117 @@ namespace Shos.CsvHelper
             set => CsvBuilder.Separator = value;
         }
 
-        // write IEnumerable<TElement> to a csv file
-        // header is recommended
+        /// <summary>write IEnumerable<TElement> to a csv file</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 writer.Write(collection.ToCsv(hasHeader));
         }
 
-        // write IEnumerable to a csv file
-        // header is recommended
+        /// <summary>write IEnumerable<TElement> to a csv file</summary>
+        /// <param name="bufferSize">buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
+        public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, Stream stream, int bufferSize, bool leaveOpen, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding, bufferSize, leaveOpen))
+                writer.Write(collection.ToCsv(hasHeader));
+        }
+
+        /// <summary>write IEnumerable to a csv file</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static void WriteCsv(this IEnumerable collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 writer.Write(collection.ObjectsToCsv(hasHeader));
         }
 
-        // write IEnumerable<TElement> to a csv file asynchronously
-        // header is recommended
+        /// <summary>write IEnumerable to a csv file</summary>
+        /// <param name="bufferSize">buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
+        public static void WriteCsv(this IEnumerable collection, Stream stream, int bufferSize, bool leaveOpen, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding, bufferSize, leaveOpen))
+                writer.Write(collection.ObjectsToCsv(hasHeader));
+        }
+
+        /// <summary>write IEnumerable<TElement> to a csv file asynchronously</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 await writer.WriteAsync(collection.ToCsv(hasHeader));
         }
 
-        // write IEnumerable to a csv file asynchronously
-        // header is recommended
+        /// <summary>write IEnumerable<TElement> to a csv file asynchronously</summary>
+        /// <param name="bufferSize">buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
+        public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, Stream stream, int bufferSize, bool leaveOpen, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding, bufferSize, leaveOpen))
+                await writer.WriteAsync(collection.ToCsv(hasHeader));
+        }
+
+        /// <summary>write IEnumerable to a csv file asynchronously</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static async Task WriteCsvAsync(this IEnumerable collection, Stream stream, bool hasHeader = true)
         {
             using (var writer = new StreamWriter(stream, Encoding))
                 await writer.WriteAsync(collection.ObjectsToCsv(hasHeader));
         }
 
-        // write IEnumerable<TElement> to a csv file
-        // header is recommended
+        /// <summary>write IEnumerable to a csv file asynchronously</summary>
+        /// <param name="bufferSize">buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
+        public static async Task WriteCsvAsync(this IEnumerable collection, Stream stream, int bufferSize, bool leaveOpen, bool hasHeader = true)
+        {
+            using (var writer = new StreamWriter(stream, Encoding, bufferSize, leaveOpen))
+                await writer.WriteAsync(collection.ObjectsToCsv(hasHeader));
+        }
+
+        /// <summary>write IEnumerable<TElement> to a csv file</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static void WriteCsv<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
                 collection.WriteCsv(stream, hasHeader);
         }
 
-        // write IEnumerable to a csv file
-        // header is recommended
+        /// <summary>write IEnumerable to a csv file</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static void WriteCsv(this IEnumerable collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
                 collection.WriteCsv(stream, hasHeader);
         }
 
-        // write IEnumerable<TElement> to a csv file asynchronously
-        // header is recommended
+        /// <summary>write IEnumerable<TElement> to a csv file asynchronously</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static async Task WriteCsvAsync<TElement>(this IEnumerable<TElement> collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
                 await collection.WriteCsvAsync(stream, hasHeader);
         }
 
-        // write IEnumerable to a csv file asynchronously
-        // header is recommended
+        /// <summary>write IEnumerable to a csv file asynchronously</summary>
+        /// <param name="hasHeader">true to write header; header is recommended</param>
         public static async Task WriteCsvAsync(this IEnumerable collection, string csvFilePathName, bool hasHeader = true)
         {
             using (var stream = new FileStream(csvFilePathName, FileMode.Create))
                 await collection.WriteCsvAsync(stream, hasHeader);
         }
 
-        // read IEnumerable<TElement> from a csv file
-        // TElement:
-        // public properties of TElement will be written and read as csv
-        // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// <summary>read IEnumerable<TElement> from a csv file</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="hasHeader">if the csv file has header or not</param>
         public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
@@ -403,11 +445,30 @@ namespace Shos.CsvHelper
                 return reader.ReadToEnd().FromCsv<TElement>(hasHeader);
         }
 
-        // read IEnumerable<TElement> from a csv file asynchronously
-        // TElement:
-        // public properties of TElement will be written and read as csv
-        // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// <summary>read IEnumerable<TElement> from a csv file</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="detectEncodingFromByteOrderMarks">to look for byte order marks at the beginning of the file; otherwise, false</param>
+        /// <param name="bufferSize">the minimum buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">if the csv file has header or not</param>
+        public static IEnumerable<TElement> ReadCsv<TElement>(this Stream stream, bool detectEncodingFromByteOrderMarks, int bufferSize, bool leaveOpen, bool hasHeader = true)
+            where TElement : new()
+        {
+            using (var reader = new StreamReader(stream, Encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen))
+                return reader.ReadToEnd().FromCsv<TElement>(hasHeader);
+        }
+
+        /// <summary>read IEnumerable<TElement> from a csv file asynchronously</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="hasHeader">if the csv file has header or not</param>
         public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this Stream stream, bool hasHeader = true)
             where TElement : new()
         {
@@ -415,11 +476,30 @@ namespace Shos.CsvHelper
                 return (await reader.ReadToEndAsync()).FromCsv<TElement>(hasHeader);
         }
 
-        // read IEnumerable<TElement> from a csv file
-        // TElement:
-        // public properties of TElement will be written and read as csv
-        // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// <summary>read IEnumerable<TElement> from a csv file asynchronously</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="detectEncodingFromByteOrderMarks">to look for byte order marks at the beginning of the file; otherwise, false</param>
+        /// <param name="bufferSize">the minimum buffer size in bytes</param>
+        /// <param name="leaveOpen">true to leave the stream open after writing; otherwise, false</param>
+        /// <param name="hasHeader">if the csv file has header or not</param>
+        public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(this Stream stream, bool detectEncodingFromByteOrderMarks, int bufferSize, bool leaveOpen, bool hasHeader = true)
+            where TElement : new()
+        {
+            using (var reader = new StreamReader(stream, Encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen))
+                return (await reader.ReadToEndAsync()).FromCsv<TElement>(hasHeader);
+        }
+
+        /// <summary>read IEnumerable<TElement> from a csv file</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="hasHeader">if the csv file has header or not</param>
         public static IEnumerable<TElement> ReadCsv<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
@@ -427,11 +507,13 @@ namespace Shos.CsvHelper
                 return stream.ReadCsv<TElement>(hasHeader);
         }
 
-        // read IEnumerable<TElement> from a csv file asynchronously
-        // TElement:
-        // public properties of TElement will be written and read as csv
-        // for writing: type of each property should have "get" and "set"
-        // for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// <summary>read IEnumerable<TElement> from a csv file asynchronously</summary>
+        /// <typeparam name="TElement">
+        /// public properties of TElement will be written and read as csv
+        /// for writing: type of each property should have "get" and "set"
+        /// for reading: type of each property should have "get" and "set" and should be string or enum or type which has a default constructor and can "TryParse" or "Parse"
+        /// </typeparam>
+        /// <param name="hasHeader">if the csv file has header or not</param>
         public static async Task<IEnumerable<TElement>> ReadCsvAsync<TElement>(string csvFilePathName, bool hasHeader = true)
             where TElement : new()
         {
