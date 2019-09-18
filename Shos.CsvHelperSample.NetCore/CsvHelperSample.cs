@@ -1,20 +1,62 @@
 ﻿// .NET Core 1.1 or later
 // .NET Framework 4.5.2 or later
 
+#define TimeMeasurement
+
 namespace Shos.CsvHelperSample
 {
     using Shos.CsvHelper;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+#if TimeMeasurement
+    using System.Diagnostics;
+#else  // TimeMeasurement
     using System.Linq;
+#endif // TimeMeasurement
     using System.Text;
     using System.Threading.Tasks;
 
     class Program
     {
+#if TimeMeasurement
+        static void Main()
+        {
+            using (var stopwatchViewer = new StopwatchViewer())
+                1000.Times(() => CsvHelperTester.Run().Wait());
+        }
+#else  // TimeMeasurement
         static void Main() => CsvHelperTester.Run().Wait();
+#endif // TimeMeasurement
     }
+
+#if TimeMeasurement
+    static class Extension
+    {
+        public static void Times(this int @this, Action action)
+        {
+            for (var count = 0; count < @this; count++)
+                action();
+        }
+    }
+
+    class StopwatchViewer : IDisposable
+    {
+        Stopwatch stopwatch = new Stopwatch();
+
+        public Action<string> WriteLine = Console.WriteLine;
+        public StopwatchViewer() => stopwatch.Start();
+
+        public void Dispose()
+        {
+            stopwatch.Stop();
+            ShowResult();
+        }
+
+        void ShowResult()
+            => WriteLine?.Invoke($"({stopwatch.ElapsedMilliseconds / 1000.0}s.)");
+    }
+#endif // TimeMeasurement
 
     static class CsvHelperTester
     {
@@ -75,8 +117,10 @@ Id,Title,Deadline,Done,Priority,Details,DaySpan
 
         static void Show<TElement>(this IEnumerable<TElement> collection)
         {
+#if !TimeMeasurement
             collection.ToList().ForEach(element => Console.WriteLine(element));
             Console.WriteLine();
+#endif // TimeMeasurement
         }
     }
 

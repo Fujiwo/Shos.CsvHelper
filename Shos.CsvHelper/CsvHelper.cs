@@ -140,8 +140,21 @@ namespace Shos.CsvHelper
                 yield return lastLine;
         }
 
+        //static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
+        //    => type.GetRuntimeProperties().Where(IsValid);
+
+        static Dictionary<Type, IEnumerable<PropertyInfo>> validPropertiesTable = new Dictionary<Type, IEnumerable<PropertyInfo>>();
+
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
-            => type.GetRuntimeProperties().Where(IsValid);
+        {
+            IEnumerable<PropertyInfo> validProperties;
+            if (validPropertiesTable.TryGetValue(type, out validProperties))
+                return validProperties;
+
+            validProperties = type.GetRuntimeProperties().Where(IsValid).ToList();
+            validPropertiesTable[type] = validProperties;
+            return validProperties;
+        }
 
         static bool IsValid(this PropertyInfo property)
             => property.CanRead && property.CanWrite && property.GetCustomAttributes(typeof(CsvIgnoreAttribute)).Count() == 0;
@@ -237,7 +250,7 @@ namespace Shos.CsvHelper
 
         static bool TryParse(this Type type, string text, out object value)
         {
-            var method     = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
+            var method     = type.GetTryParseMethod();
             var parameters = new object[] { text, null };
             if (method != null && (bool)method.Invoke(null, parameters)) {
                 value = parameters[1];
@@ -247,9 +260,39 @@ namespace Shos.CsvHelper
             return false;
         }
 
+        //static MethodInfo GetTryParseMethod(this Type type)
+        //    => type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
+
+        static Dictionary<Type, MethodInfo> tryParseMethodTable = new Dictionary<Type, MethodInfo>();
+
+        static MethodInfo GetTryParseMethod(this Type type)
+        {
+            MethodInfo method;
+            if (tryParseMethodTable.TryGetValue(type, out method))
+                return method;
+            method = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
+            tryParseMethodTable[type] = method;
+            return method;
+        }
+
+        //static MethodInfo GetParseMethod(this Type type)
+        //    => type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
+
+        static Dictionary<Type, MethodInfo> parseMethodTable = new Dictionary<Type, MethodInfo>();
+
+        static MethodInfo GetParseMethod(this Type type)
+        {
+            MethodInfo method;
+            if (parseMethodTable.TryGetValue(type, out method))
+                return method;
+            method = type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
+            parseMethodTable[type] = method;
+            return method;
+        }
+
         static bool Parse(this Type type, string text, out object value)
         {
-            var method    = type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
+            var method    = type.GetParseMethod();
             var parameter = new object[] { text };
             if (method != null) {
                 try {
