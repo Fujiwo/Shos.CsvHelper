@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shos.CsvHelper", "Shos.CsvHelper\Shos.CsvHelper.csproj", "{73E8F99D-27EC-4AC2-9442-68EF00FB6B0A}"
 EndProject
@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		license = license
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadToEndPerformanceTest", "ReadToEndPerformanceTest\ReadToEndPerformanceTest.csproj", "{0C9C3BF0-F600-4192-9E90-CDF19060D70B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +41,15 @@ Global
 		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E50072C-DBEE-4094-B984-88CD3DD44560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9C3BF0-F600-4192-9E90-CDF19060D70B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9C3BF0-F600-4192-9E90-CDF19060D70B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9C3BF0-F600-4192-9E90-CDF19060D70B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9C3BF0-F600-4192-9E90-CDF19060D70B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B86FD34A-B42E-425B-B3CE-BB1CC35D1083}
 	EndGlobalSection
 EndGlobal
