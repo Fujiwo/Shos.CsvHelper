@@ -4,6 +4,24 @@
 * English document: [Shos.CsvHelper | Programming C# (Sho's Software)](https://wp.shos.info/2019/10/17/c-net-shos-csvhelper-simple-library-for-reading-and-writing-csv/ "Shos.CsvHelper | Programming C# (Sho's Software)")
 * Japanese document: [Shos.CsvHelper | Programming C# (Sho's Software)](https://wp.shos.info/2017/07/12/post-0-2/ "Shos.CsvHelper | Programming C# (Sho's Software)")
 
+## NuGet
+
+You can install Shos.CsvHelper to your project with [NuGet](https://www.nuget.org) on Visual Studio.
+
+* [NuGet Gallery | Shos.CsvHelper](https://www.nuget.org/packages/Shos.CsvHelper/)
+
+### Package Manager
+
+    PM>Install-Package Shos.CsvHelper -version 1.0.0.1
+
+### .NET CLI
+
+    >dotnet add package Shos.CsvHelper --version 1.0.0.1
+
+### PackageReference
+
+    <PackageReference Include="Shos.CsvHelper" Version="1.0.0.1" />
+
 ## Projects
 
 ### Shos.CsvHelper
