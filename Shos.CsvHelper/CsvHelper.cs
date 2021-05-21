@@ -165,7 +165,7 @@ namespace Shos.CsvHelper
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
             => stringBuilder.AppendLine(properties.Select(property => property.GetValue(element).ToCsv()), Separator);
 
-        static string ToCsv(this object item) => item.ToString().ToCsv();
+        static string ToCsv(this object item) => item is null ? "" : item.ToString().ToCsv();
 
         static string ToCsv(this string text)
         {

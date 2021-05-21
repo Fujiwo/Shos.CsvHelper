@@ -12,15 +12,15 @@ You can install Shos.CsvHelper to your project with [NuGet](https://www.nuget.or
 
 ### Package Manager
 
-    PM>Install-Package Shos.CsvHelper -version 1.0.0.1
+    PM>Install-Package Shos.CsvHelper -version 1.0.0.2
 
 ### .NET CLI
 
-    >dotnet add package Shos.CsvHelper --version 1.0.0.1
+    >dotnet add package Shos.CsvHelper --version 1.0.0.2
 
 ### PackageReference
 
-    <PackageReference Include="Shos.CsvHelper" Version="1.0.0.1" />
+    <PackageReference Include="Shos.CsvHelper" Version="1.0.0.2" />
 
 ## Projects
 
