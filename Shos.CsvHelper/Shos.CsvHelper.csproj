@@ -1,27 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Shos.CsvHelper</RootNamespace>
     <AssemblyName>Shos.CsvHelper</AssemblyName>
-    <Copyright>Copyright © 2017-2019 Fujio Kojima</Copyright>
-    <Version>1.0.0.2</Version>
+    <Copyright>Copyright © 2017-2024 Fujio Kojima</Copyright>
+    <Version>1.0.0.3</Version>
     <Description>Csv (comma-separated values) Library (.NET Standard Library)
 
 A library for reading objects from CSV files and writing objects to CSV files.
-(for .NET Network 4.6 or later, .NET Core 1.1 or later)
 </Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <FileVersion>1.0.0.3</FileVersion>
     <PackageTags>csv csvhelper comma separated value delimited</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fujio Kojima</Authors>
     <Company>Sho's Software</Company>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseUrl>
+    </PackageLicenseUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
+  <ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>

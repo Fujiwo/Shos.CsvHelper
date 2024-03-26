@@ -12,28 +12,28 @@ You can install Shos.CsvHelper to your project with [NuGet](https://www.nuget.or
 
 ### Package Manager
 
-    PM>Install-Package Shos.CsvHelper -version 1.0.0.2
+    PM>Install-Package Shos.CsvHelper -version 1.0.0.3
 
 ### .NET CLI
 
-    >dotnet add package Shos.CsvHelper --version 1.0.0.2
+    >dotnet add package Shos.CsvHelper --version 1.0.0.3
 
 ### PackageReference
 
-    <PackageReference Include="Shos.CsvHelper" Version="1.0.0.2" />
+    <PackageReference Include="Shos.CsvHelper" Version="1.0.0.3" />
 
 ## Projects
 
 ### Shos.CsvHelper
 * Csv (comma-separated values) Library
-* .NET Standard Library
-* .NET Standard 1.3 or later
-* for .NET Network 4.6 or later, .NET Core 1.1 or later
+* .NET 8.0
+* for .NET 8.0 or later
 * Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper](https://www.nuget.org/packages/Shos.CsvHelper "NuGet Gallery | Shos.CsvHelper")
 
 ### Shos.CsvHelper.NetFramework
 * Csv (comma-separated values) Library for .NET Framework
-* .NET Framework 4.5.2 or later
+* .NET 4.8
+* .NET Framework 4.8 or later
 * Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper.NetFramework](https://www.nuget.org/packages/Shos.CsvHelper.NetFramework "NuGet Gallery | Shos.CsvHelper.NetFramework")
 
 ### Shos.CsvHelperSample.NetCore
@@ -47,8 +47,8 @@ You can install Shos.CsvHelper to your project with [NuGet](https://www.nuget.or
 CsvHelperSample.cs | Shos.CsvHelperSample.NetCore or Shos.CsvHelperSample.NetFramework
 
 ```C#
-// .NET Core 1.1 or later
-// .NET Framework 4.5.2 or later
+// .NET 8.0 or later
+// .NET Framework 4.8 or later
 
 namespace Shos.CsvHelperSample
 {
@@ -184,7 +184,7 @@ Fujio Kojima: a software developer in Japan
 * Microsoft MVP for Development Tools - Visual C# (Jul. 2005 - Dec. 2014)
 * Microsoft MVP for .NET (Jan. 2015 - Oct. 2015)
 * Microsoft MVP for Visual Studio and Development Technologies (Nov. 2015 - Jun. 2018)
-* Microsoft MVP for Developer Technologies (Nov. 2018 - Jun. 2021)
+* Microsoft MVP for Developer Technologies (Nov. 2018 - Jun. 2024)
 * [MVP Profile](https://mvp.microsoft.com/en-us/PublicProfile/21482 "MVP Profile")
 * [Blog (Japanese)](http://wp.shos.info "Blog (Japanese)")
 * [Web Site (Japanese)](http://www.shos.info "Web Site (Japanese)")
