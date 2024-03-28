@@ -1,7 +1,7 @@
-﻿// .NET Core 1.1 or later
-// .NET Framework 4.5.2 or later
+﻿// .NET 8.0 or later
+// .NET Framework 4.8 or later
 
-#define TimeMeasurement
+//#define TimeMeasurement
 
 namespace Shos.CsvHelperSample
 {
@@ -23,7 +23,7 @@ namespace Shos.CsvHelperSample
         static void Main()
         {
             using (var stopwatchViewer = new StopwatchViewer())
-                1000.Times(() => CsvHelperTester.Run().Wait());
+                10.Times(() => CsvHelperTester.Run().Wait());
         }
 #else  // TimeMeasurement
         static void Main() => CsvHelperTester.Run().Wait();
