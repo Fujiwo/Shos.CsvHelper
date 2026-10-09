@@ -35,7 +35,12 @@ namespace Shos.CsvHelper
         {
             var dictionary = new Dictionary<TKey, TValue>();
             var valueList  = values.ToList();
-            keys.ForEach((index, key) => dictionary[key] = valueList[index]);
+            keys.ForEach(
+                (index, key) => {
+                    if (index < valueList.Count)
+                        dictionary[key] = valueList[index];
+                }
+            );
             return dictionary;
         }
 
@@ -111,7 +116,7 @@ namespace Shos.CsvHelper
             if (hasHeader) {
                 var columnNames = lines.FirstOrDefault()?.SplitCsv();
                 return columnNames == null
-                       ? null
+                       ? Array.Empty<TElement>()
                        : lines.Skip(1).Select(line => line.FromCsv<TElement>(columnNames, typeof(TElement).GetValidProperties()));
             }
             return lines.Select(line => line.FromCsv<TElement>(typeof(TElement).GetValidProperties()));
@@ -143,24 +148,28 @@ namespace Shos.CsvHelper
         //static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
         //    => type.GetRuntimeProperties().Where(IsValid);
 
-        static Dictionary<Type, IEnumerable<PropertyInfo>> validPropertiesTable = new Dictionary<Type, IEnumerable<PropertyInfo>>();
+        static readonly Dictionary<Type, IEnumerable<PropertyInfo>> validPropertiesTable = new Dictionary<Type, IEnumerable<PropertyInfo>>();
 
         static IEnumerable<PropertyInfo> GetValidProperties(this Type type)
         {
-            IEnumerable<PropertyInfo> validProperties;
-            if (validPropertiesTable.TryGetValue(type, out validProperties))
-                return validProperties;
+            lock (validPropertiesTable) {
+                if (validPropertiesTable.TryGetValue(type, out var validProperties))
+                    return validProperties;
 
-            validProperties = type.GetRuntimeProperties().Where(IsValid).ToList();
-            validPropertiesTable[type] = validProperties;
-            return validProperties;
+                validProperties = type.GetRuntimeProperties().Where(IsValid).ToList();
+                validPropertiesTable[type] = validProperties;
+                return validProperties;
+            }
         }
 
         static bool IsValid(this PropertyInfo property)
-            => property.CanRead && property.CanWrite && property.GetCustomAttributes(typeof(CsvIgnoreAttribute)).Count() == 0;
+            => property.CanRead
+               && property.CanWrite
+               && property.GetIndexParameters().Length == 0
+               && !property.GetCustomAttributes<CsvIgnoreAttribute>().Any();
 
         static string ColumnName(this PropertyInfo property)
-            => ((ColumnNameAttribute)(property.GetCustomAttributes(typeof(ColumnNameAttribute)).SingleOrDefault()))?.Value ?? property.Name;
+            => property.GetCustomAttributes<ColumnNameAttribute>().SingleOrDefault()?.Value ?? property.Name;
 
         static void AppendCsv<TElement>(this StringBuilder stringBuilder, TElement element, IEnumerable<PropertyInfo> properties)
             => stringBuilder.AppendLine(properties.Select(property => property.GetValue(element).ToCsv()), Separator);
@@ -263,31 +272,33 @@ namespace Shos.CsvHelper
         //static MethodInfo GetTryParseMethod(this Type type)
         //    => type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
 
-        static Dictionary<Type, MethodInfo> tryParseMethodTable = new Dictionary<Type, MethodInfo>();
+        static readonly Dictionary<Type, MethodInfo> tryParseMethodTable = new Dictionary<Type, MethodInfo>();
 
         static MethodInfo GetTryParseMethod(this Type type)
         {
-            MethodInfo method;
-            if (tryParseMethodTable.TryGetValue(type, out method))
+            lock (tryParseMethodTable) {
+                if (tryParseMethodTable.TryGetValue(type, out var method))
+                    return method;
+                method = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
+                tryParseMethodTable[type] = method;
                 return method;
-            method = type.GetRuntimeMethod("TryParse", new Type[] { typeof(string), type.MakeByRefType() });
-            tryParseMethodTable[type] = method;
-            return method;
+            }
         }
 
         //static MethodInfo GetParseMethod(this Type type)
         //    => type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
 
-        static Dictionary<Type, MethodInfo> parseMethodTable = new Dictionary<Type, MethodInfo>();
+        static readonly Dictionary<Type, MethodInfo> parseMethodTable = new Dictionary<Type, MethodInfo>();
 
         static MethodInfo GetParseMethod(this Type type)
         {
-            MethodInfo method;
-            if (parseMethodTable.TryGetValue(type, out method))
+            lock (parseMethodTable) {
+                if (parseMethodTable.TryGetValue(type, out var method))
+                    return method;
+                method = type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
+                parseMethodTable[type] = method;
                 return method;
-            method = type.GetRuntimeMethod("Parse", new Type[] { typeof(string) });
-            parseMethodTable[type] = method;
-            return method;
+            }
         }
 
         static bool Parse(this Type type, string text, out object value)
@@ -298,7 +309,7 @@ namespace Shos.CsvHelper
                 try {
                     value = method.Invoke(null, parameter);
                     return true;
-                } catch {
+                } catch (TargetInvocationException) {
                 }
             }
             value = null;

@@ -26,7 +26,7 @@ You can install Shos.CsvHelper to your project with [NuGet](https://www.nuget.or
 
 ### Shos.CsvHelper
 * Csv (comma-separated values) Library
-* .NET 8.0
+* Targets .NET 8.0 and .NET 10.0
 * for .NET 8.0 or later
 * Install as a NuGet Package: [NuGet Gallery | Shos.CsvHelper](https://www.nuget.org/packages/Shos.CsvHelper "NuGet Gallery | Shos.CsvHelper")
 

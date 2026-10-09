@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <RootNamespace>Shos.CsvHelper</RootNamespace>
     <AssemblyName>Shos.CsvHelper</AssemblyName>
     <Copyright>Copyright © 2017-2024 Fujio Kojima</Copyright>
     <Version>1.0.0.4</Version>
-    <Description>Csv (comma-separated values) Library (.NET Standard Library)
+    <Description>Csv (comma-separated values) Library for .NET 8 and later
 
 A library for reading objects from CSV files and writing objects to CSV files.
 </Description>
