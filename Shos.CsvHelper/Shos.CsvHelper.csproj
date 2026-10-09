@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Shos.CsvHelper</RootNamespace>
     <AssemblyName>Shos.CsvHelper</AssemblyName>
     <Copyright>Copyright © 2017-2024 Fujio Kojima</Copyright>
-    <Version>1.0.0.3</Version>
+    <Version>1.0.0.4</Version>
     <Description>Csv (comma-separated values) Library (.NET Standard Library)
 
 A library for reading objects from CSV files and writing objects to CSV files.
@@ -12,8 +12,8 @@ A library for reading objects from CSV files and writing objects to CSV files.
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/Fujiwo/Shos.CsvHelper/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Fujiwo/Shos.CsvHelper/</RepositoryUrl>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.4</AssemblyVersion>
+    <FileVersion>1.0.0.4</FileVersion>
     <PackageTags>csv csvhelper comma separated value delimited</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fujio Kojima</Authors>
@@ -24,6 +24,9 @@ A library for reading objects from CSV files and writing objects to CSV files.
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
-	<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="5.0.1" />
   </ItemGroup>
 </Project>
